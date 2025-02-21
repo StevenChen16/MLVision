@@ -1,4 +1,5 @@
 import SwiftUI
+import Foundation
 
 struct DatasetSelectionView: View {
     let algorithmType: AlgorithmType
@@ -79,7 +80,8 @@ struct DatasetPreview: View {
         .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                .stroke(style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, miterLimit: 0, dash: [], dashPhase: 0))
+                .foregroundColor(Color.gray.opacity(0.2))
         )
     }
     

@@ -9,6 +9,7 @@ struct VisualizationView: View {
             ZStack {
                 // 背景网格
                 GridBackground()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
                 
                 // 数据点
                 ForEach(knnModel.trainingData) { point in
@@ -23,7 +24,7 @@ struct VisualizationView: View {
                 if let selected = knnModel.selectedPoint {
                     ConnectionLines(from: selected,
                                  to: knnModel.nearestNeighbors,
-                                 in: geometry.size,
+                                 size: geometry.size,
                                  converter: convertToView)
                 }
             }
@@ -55,23 +56,6 @@ struct VisualizationView: View {
     }
 }
 
-struct GridBackground: View {
-    var body: some View {
-        Path { path in
-            let step: CGFloat = 0.1
-            for x in stride(from: 0, through: 1, by: step) {
-                path.move(to: CGPoint(x: x, y: 0))
-                path.addLine(to: CGPoint(x: x, y: 1))
-            }
-            for y in stride(from: 0, through: 1, by: step) {
-                path.move(to: CGPoint(x: 0, y: y))
-                path.addLine(to: CGPoint(x: 1, y: y))
-            }
-        }
-        .stroke(Color.gray.opacity(0.2), lineWidth: 0.5)
-    }
-}
-
 struct ConnectionLines: View {
     let from: DataPoint
     let to: [DataPoint]
@@ -79,14 +63,14 @@ struct ConnectionLines: View {
     let converter: (DataPoint, CGSize) -> CGPoint
     
     var body: some View {
-        Path { path in
-            let fromPoint = converter(from, size)
-            for neighbor in to {
-                let toPoint = converter(neighbor, size)
-                path.move(to: fromPoint)
-                path.addLine(to: toPoint)
+        ForEach(to, id: \.id) { point in
+            Path { path in
+                let start = converter(from, size)
+                let end = converter(point, size)
+                path.move(to: start)
+                path.addLine(to: end)
             }
+            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
         }
-        .stroke(Color.gray.opacity(0.5), lineWidth: 1)
     }
 }

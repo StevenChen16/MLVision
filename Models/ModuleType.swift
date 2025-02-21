@@ -1,6 +1,6 @@
 import Foundation
 
-enum ModuleType: String, CaseIterable, Identifiable {
+enum ModuleType: String, CaseIterable {
     case kValueSelector = "K Value Selector"
     case distanceCalculator = "Distance Calculator"
     case classifier = "Classifier"

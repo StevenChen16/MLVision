@@ -1,4 +1,5 @@
 import SwiftUI
+import Foundation
 
 struct AlgorithmStep: Identifiable {
     let id = UUID()
@@ -126,10 +127,4 @@ struct AlgorithmExplanationView: View {
         }
         .padding()
     }
-}
-
-enum AlgorithmType {
-    case knn
-    case linearRegression
-    case decisionTree
 }

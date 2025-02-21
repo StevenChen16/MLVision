@@ -12,6 +12,7 @@ struct Dataset {
     let data: [DataPoint]
 }
 
+@MainActor
 class DatasetManager {
     static let shared = DatasetManager()
     
@@ -68,15 +69,15 @@ class DatasetManager {
             description: "A simple dataset showing a clear linear relationship with some noise.",
             type: .regression,
             data: [
-                DataPoint(x: 0.1, y: 0.2),
-                DataPoint(x: 0.2, y: 0.3),
-                DataPoint(x: 0.3, y: 0.35),
-                DataPoint(x: 0.4, y: 0.5),
-                DataPoint(x: 0.5, y: 0.55),
-                DataPoint(x: 0.6, y: 0.65),
-                DataPoint(x: 0.7, y: 0.8),
-                DataPoint(x: 0.8, y: 0.85),
-                DataPoint(x: 0.9, y: 0.95)
+                DataPoint(x: 0.1, y: 0.2, category: 0),
+                DataPoint(x: 0.2, y: 0.3, category: 0),
+                DataPoint(x: 0.3, y: 0.35, category: 0),
+                DataPoint(x: 0.4, y: 0.5, category: 0),
+                DataPoint(x: 0.5, y: 0.55, category: 0),
+                DataPoint(x: 0.6, y: 0.65, category: 0),
+                DataPoint(x: 0.7, y: 0.8, category: 0),
+                DataPoint(x: 0.8, y: 0.85, category: 0),
+                DataPoint(x: 0.9, y: 0.95, category: 0)
             ]
         ),
         
@@ -85,15 +86,15 @@ class DatasetManager {
             description: "A dataset showing a quadratic relationship, demonstrating non-linear patterns.",
             type: .regression,
             data: [
-                DataPoint(x: 0.1, y: 0.01),
-                DataPoint(x: 0.2, y: 0.04),
-                DataPoint(x: 0.3, y: 0.09),
-                DataPoint(x: 0.4, y: 0.16),
-                DataPoint(x: 0.5, y: 0.25),
-                DataPoint(x: 0.6, y: 0.36),
-                DataPoint(x: 0.7, y: 0.49),
-                DataPoint(x: 0.8, y: 0.64),
-                DataPoint(x: 0.9, y: 0.81)
+                DataPoint(x: 0.1, y: 0.01, category: 0),
+                DataPoint(x: 0.2, y: 0.04, category: 0),
+                DataPoint(x: 0.3, y: 0.09, category: 0),
+                DataPoint(x: 0.4, y: 0.16, category: 0),
+                DataPoint(x: 0.5, y: 0.25, category: 0),
+                DataPoint(x: 0.6, y: 0.36, category: 0),
+                DataPoint(x: 0.7, y: 0.49, category: 0),
+                DataPoint(x: 0.8, y: 0.64, category: 0),
+                DataPoint(x: 0.9, y: 0.81, category: 0)
             ]
         )
     ]
