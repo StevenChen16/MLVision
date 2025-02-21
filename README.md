@@ -13,11 +13,14 @@ An interactive machine learning algorithm learning application designed for the 
 ## Current Features
 
 ### KNN (K-Nearest Neighbors) Algorithm
-- Real-time data point visualization
-- Adjustable K parameter (1-10)
-- Dynamic nearest neighbor display
-- Real-time classification effects
-- Random data generation
+- Interactive step-by-step demonstration of the KNN algorithm
+- Manual control over animation steps with clear instructions
+- Visualization of:
+  - Training data points
+  - Distance calculation to all points
+  - K nearest neighbors selection
+  - Final classification through voting
+- Reset functionality to start over at any time
 
 ## Project Structure
 

@@ -9,37 +9,71 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
-                // 算法选择器
-                Picker("Algorithm", selection: $selectedAlgorithm) {
-                    Text("KNN").tag(AlgorithmType.knn)
-                    Text("Linear Regression").tag(AlgorithmType.linearRegression)
-                    Text("Decision Tree").tag(AlgorithmType.decisionTree)
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
-                
-                // 算法视图
-                switch selectedAlgorithm {
-                case .knn:
-                    KNNMainView(knnModel: knnModel)
-                case .linearRegression:
-                    LinearRegressionView()
-                case .decisionTree:
-                    VStack {
-                        Image(systemName: "hammer.fill")
-                            .font(.system(size: 50))
-                            .foregroundColor(.gray)
-                            .padding()
-                        Text("Coming Soon!")
-                            .font(.title)
-                        Text("This feature is under development")
-                            .foregroundColor(.gray)
+            GeometryReader { geometry in
+                VStack(spacing: 0) {
+                    // 添加顶部安全区域，考虑灵动岛的高度
+                    Color.clear
+                        .frame(height: geometry.safeAreaInsets.top + 60)  // 动态计算顶部安全区域加额外空间
+                    
+                    Text("Machine Learning Visualization")
+                        .font(.headline)
+                        .padding(.bottom, 8)
+                    
+                    // 算法选择器
+                    Picker("Algorithm", selection: $selectedAlgorithm) {
+                        Text("KNN").tag(AlgorithmType.knn)
+                        Text("Linear Regression").tag(AlgorithmType.linearRegression)
+                        Text("Decision Tree").tag(AlgorithmType.decisionTree)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.secondary.opacity(0.1))
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.horizontal)
+                    .padding(.bottom, 8)
+                    
+                    // 算法视图
+                    switch selectedAlgorithm {
+                    case .knn:
+                        KNNMainView(knnModel: knnModel)
+                    case .linearRegression:
+                        LinearRegressionView()
+                    case .decisionTree:
+                        VStack {
+                            Image(systemName: "hammer.fill")
+                                .font(.system(size: 50))
+                                .foregroundColor(.gray)
+                                .padding()
+                            Text("Coming Soon!")
+                                .font(.title)
+                            Text("This feature is under development")
+                                .foregroundColor(.gray)
+                            InstructionsButton(instructions: """
+                                Decision Tree Algorithm
+                                
+                                Coming Soon!
+                                
+                                Decision trees are a powerful and intuitive machine learning algorithm
+                                that makes decisions by following a tree-like structure of rules.
+                                
+                                This module is currently under development.
+                                Stay tuned for updates!
+                                
+                                Key Features to Come:
+                                • Visual tree structure representation
+                                • Step-by-step decision process
+                                • Interactive node splitting
+                                • Real-time prediction paths
+                                • Pruning visualization
+                                
+                                We're working hard to bring you an amazing
+                                learning experience with decision trees!
+""")
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.secondary.opacity(0.1))
+                    }
                 }
+                .edgesIgnoringSafeArea(.top)  // 忽略顶部安全区域，使用我们自己的间距
             }
+            .navigationBarHidden(true)  // 隐藏导航栏，完全自己控制布局
             .onAppear {
                 // 生成初始数据
                 let initialData = DataPoint.generateRandomPoints(
@@ -51,8 +85,6 @@ struct ContentView: View {
                 // 开始播放音乐
                 audioPlayer.play()
             }
-            .navigationTitle("Machine Learning Visualization")
-            .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(trailing: HStack {
                 Button(action: {
                     audioPlayer.toggle()
@@ -75,25 +107,6 @@ struct ContentView: View {
     }
 }
 
-struct KNNControlPanel: View {
-    @ObservedObject var knnModel: KNNModel
-    
-    var body: some View {
-        HStack {
-            Text("K Value: \(knnModel.k)")
-                .frame(width: 80, alignment: .leading)
-            Slider(value: .init(
-                get: { Double(knnModel.k) },
-                set: { knnModel.setK(Int($0)) }
-            ), in: 1...10, step: 1)
-            .accentColor(.purple)
-        }
-        .padding()
-        .background(Color.secondary.opacity(0.05))
-        .cornerRadius(8)
-    }
-}
-
 struct AlgorithmHelpView: View {
     let algorithmType: AlgorithmType
     @Environment(\.presentationMode) var presentationMode
@@ -112,14 +125,14 @@ struct AlgorithmHelpView: View {
                             
                             How to Use This Demo:
                             1. Drag and Drop Modules:
-                               • Start with the K-Value Selector
-                               • Add the Distance Calculator
-                               • Finally, place the Classifier
+                                • Start with the K-Value Selector
+                                • Add the Distance Calculator
+                                • Finally, place the Classifier
                             
                             2. Interact with Data:
-                               • Click anywhere to add data points
-                               • Use the K-value slider to adjust neighbors
-                               • Watch how classification changes
+                                • Click anywhere to add data points
+                                • Use the K-value slider to adjust neighbors
+                                • Watch how classification changes
                             
                             Key Concepts:
                             • K-Value: The number of neighbors to consider
@@ -130,7 +143,7 @@ struct AlgorithmHelpView: View {
                             • Try different K values to see how it affects classification
                             • Add points in clear patterns for better understanding
                             • Watch how the decision boundary changes
-                            """)
+""")
                     case .linearRegression:
                         Text("""
                             Linear Regression Algorithm
@@ -140,16 +153,16 @@ struct AlgorithmHelpView: View {
                             
                             How to Use This Demo:
                             1. Add Data Points:
-                               • Click on the graph to add points
-                               • Try to create a linear pattern
+                                • Click on the graph to add points
+                                • Try to create a linear pattern
                             
                             2. Train the Model:
-                               • Use 'Next Step' to learn step-by-step
-                               • Or use 'Auto Train' for quick results
+                                • Use 'Next Step' to learn step-by-step
+                                • Or use 'Auto Train' for quick results
                             
                             3. Adjust Parameters:
-                               • Learning Rate: Controls step size
-                               • Epochs: Number of training iterations
+                                • Learning Rate: Controls step size
+                                • Epochs: Number of training iterations
                             
                             Key Concepts:
                             • Slope: Steepness of the line
@@ -161,7 +174,7 @@ struct AlgorithmHelpView: View {
                             • Start with a small learning rate
                             • Add more points for better accuracy
                             • Watch how the line adjusts to fit data
-                            """)
+""")
                     case .decisionTree:
                         Text("""
                             Decision Tree Algorithm
@@ -173,7 +186,7 @@ struct AlgorithmHelpView: View {
                             
                             This module is currently under development.
                             Stay tuned for updates!
-                            """)
+""")
                     }
                 }
                 .padding()
